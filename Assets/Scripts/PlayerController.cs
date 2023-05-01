@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     private float jumpForce = 9.5f;
 
     private bool isGrounded = false;
+    private bool isTall = false;
+    private bool isDead = false;
     private Rigidbody2D myRigid;
 
 
@@ -49,7 +51,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
         }
 
-        if (collision.collider.tag == "Brick")
+        if (collision.collider.tag == "Brick" || collision.collider.tag == "Box")
         {
             isGrounded = true;
             moveSpeed = 0;
@@ -58,9 +60,17 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if(collision.collider.tag == "Brick")
+        if(collision.collider.tag == "Brick" || collision.collider.tag == "Box")
         {
             StartCoroutine(TimeWaiter(0.5f));
+        }
+
+        if (collision.collider.tag == "DeadZone")
+        {
+            isDead = true;
+            Debug.Log("Dead!");
+            Destroy(this.gameObject);
+            Time.timeScale = 0f;
         }    
     }
 
@@ -71,7 +81,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
         }
 
-        if (collision.collider.tag == "Brick")
+        if (collision.collider.tag == "Brick" || collision.collider.tag == "Box")
         {
             moveSpeed = 4.5f;
         }

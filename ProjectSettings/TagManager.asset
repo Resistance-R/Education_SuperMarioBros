@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Land
+  - Head
+  - Leg
+  - Brick
+  - Box
+  - DeadZone
   layers:
   - Default
   - TransparentFX
