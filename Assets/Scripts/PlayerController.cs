@@ -36,12 +36,32 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator TimeWaiter(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        moveSpeed = 4.5f;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.tag == "Land")
         {
             isGrounded = true;
         }
+
+        if (collision.collider.tag == "Brick")
+        {
+            isGrounded = true;
+            moveSpeed = 0;
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if(collision.collider.tag == "Brick")
+        {
+            StartCoroutine(TimeWaiter(0.5f));
+        }    
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -49,6 +69,11 @@ public class PlayerController : MonoBehaviour
         if (collision.collider.tag == "Land")
         {
             isGrounded = false;
+        }
+
+        if (collision.collider.tag == "Brick")
+        {
+            moveSpeed = 4.5f;
         }
     }
 }
