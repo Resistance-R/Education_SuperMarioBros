@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float jumpForce = 9.5f;
+    
+    [SerializeField]
+    private int lifeScore = 1;
 
     private bool isGrounded = false;
     private bool isTall = false;
@@ -25,6 +28,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Move();
+        WhenTall();
+        Dead();
     }
 
     private void Move()
@@ -35,6 +40,33 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded == true)
         {
             myRigid.velocity = Vector2.up * jumpForce;
+        }
+    }
+
+    private void WhenTall()
+    {
+        if (isTall == true)
+        {
+            lifeScore += lifeScore;
+        }
+    }
+
+    private void Dead()
+    {
+        GameObject HeadFinder = GameObject.Find("Head");
+        GameObject LegFinder = GameObject.Find("Leg");
+
+        if (lifeScore == 0)
+        {
+            isDead = true;
+        }
+
+        if (isDead == true)
+        {
+            Debug.Log("Dead!");
+            Destroy(HeadFinder);
+            Destroy(LegFinder);
+            Time.timeScale = 0f;
         }
     }
 
@@ -56,6 +88,16 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
             moveSpeed = 0;
         }
+
+        if (collision.collider.tag == "Mur")
+        {
+            isTall = true;
+        }
+
+        if (collision.collider.tag == "Enemy")
+        {
+            lifeScore -= lifeScore;
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -68,9 +110,6 @@ public class PlayerController : MonoBehaviour
         if (collision.collider.tag == "DeadZone")
         {
             isDead = true;
-            Debug.Log("Dead!");
-            Destroy(this.gameObject);
-            Time.timeScale = 0f;
         }    
     }
 
@@ -84,6 +123,7 @@ public class PlayerController : MonoBehaviour
         if (collision.collider.tag == "Brick" || collision.collider.tag == "Box")
         {
             moveSpeed = 4.5f;
+            isGrounded = false;
         }
     }
 }
