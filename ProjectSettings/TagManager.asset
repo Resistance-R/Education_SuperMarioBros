@@ -12,7 +12,9 @@ TagManager:
   - DeadZone
   - Mur
   - Flo
-  - Item
+  - Fire
+  - Unbroken
+  - UsedBox
   layers:
   - Default
   - TransparentFX

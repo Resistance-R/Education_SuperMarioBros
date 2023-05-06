@@ -47,7 +47,8 @@ public class PlayerController : MonoBehaviour
     {
         if (isTall == true)
         {
-            lifeScore += lifeScore;
+            lifeScore += 1;
+            isTall = false;
         }
     }
 
