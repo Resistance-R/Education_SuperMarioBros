@@ -17,8 +17,8 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded = false;
     private bool isTall = false;
     private bool isDead = false;
+    private bool BrickBreaker = false;
     private Rigidbody2D myRigid;
-
 
     void Start()
     {
@@ -50,6 +50,12 @@ public class PlayerController : MonoBehaviour
             lifeScore += 1;
             isTall = false;
         }
+
+        if (lifeScore > 1)
+        {
+            BrickBreaker = true;
+        }
+
     }
 
     private void Dead()
@@ -112,6 +118,11 @@ public class PlayerController : MonoBehaviour
         {
             isDead = true;
         }    
+
+        if(collision.collider.tag == "Brick" && BrickBreaker == true)
+        {
+
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -126,5 +137,10 @@ public class PlayerController : MonoBehaviour
             moveSpeed = 4.5f;
             isGrounded = false;
         }
+    }
+
+    public bool IsBreaker()
+    {
+        return BrickBreaker;
     }
 }

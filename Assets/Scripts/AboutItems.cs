@@ -2,19 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ContactItems : MonoBehaviour
+public class AboutItems : MonoBehaviour
 {
     [SerializeField]
-    private float moveSpeed = 4.5f;
+    private float moveSpeed = 3.5f;
 
     [SerializeField]
     private float direction = 1f;
 
     private Rigidbody2D itemRigid;
-    
+
     void Start()
     {
         itemRigid = GetComponent<Rigidbody2D>();
+        
     }
 
     void Update()
@@ -30,7 +31,7 @@ public class ContactItems : MonoBehaviour
             direction *= -1;
         }
 
-        if (collision.collider.tag == "Player")
+        if (collision.collider.tag == "Head" || collision.collider.tag == "Leg")
         {
             Destroy(this.gameObject);
             Debug.Log("Contact!");
