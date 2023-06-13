@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AboutBricks : MonoBehaviour
 {
-    [SerializeField]
     private Rigidbody2D brickRigid;
 
     void Start()
@@ -19,13 +18,11 @@ public class AboutBricks : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Head")
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+            if (collision.collider.tag == "Head" && player.isTall == true)
         {
-            PlayerController Player = collision.collider.GetComponent<PlayerController>();
-            if (Player != null && Player.IsBreaker())
-            {
                 Destroy(this.gameObject);
-            }
+                Debug.Log("Brick is Broken.");
         }
     }
 }

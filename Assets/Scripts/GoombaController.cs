@@ -27,8 +27,11 @@ public class GoombaController : MonoBehaviour
         Vector3 movePosition = new Vector3(transform.position.x + (direction * moveSpeed * Time.deltaTime), transform.position.y, 0f);
         transform.position = movePosition;
     }
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        PlayerController PlayerHitting = collision.gameObject.GetComponent<PlayerController>();
+
         if (collision.collider.tag == "Unbroken")
         {
             direction *= -1;
@@ -38,5 +41,17 @@ public class GoombaController : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        if(collision.collider.tag == "Head")
+        {
+            PlayerHitting.lifeScore -= 1;
+            if(PlayerHitting.isTall == true || PlayerHitting.isFlo == true)
+            {
+                PlayerHitting.isTall = false;
+                PlayerHitting.isFlo = false;
+            }
+        }
+
+
     }
 }

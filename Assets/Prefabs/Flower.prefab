@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5552252929724357463}
   - component: {fileID: -2046399937600598164}
   - component: {fileID: -7667450373269050447}
+  - component: {fileID: -3576198156784388693}
   m_Layer: 0
   m_Name: Flower
   m_TagString: Flo
@@ -132,4 +133,18 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!114 &-3576198156784388693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5552252929724357462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 159612f0418d44d3a99e546a30d83dd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3.5
+  direction: 1

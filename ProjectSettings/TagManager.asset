@@ -15,6 +15,7 @@ TagManager:
   - Fire
   - Unbroken
   - UsedBox
+  - Enemy
   layers:
   - Default
   - TransparentFX

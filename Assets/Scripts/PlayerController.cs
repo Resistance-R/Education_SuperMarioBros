@@ -12,12 +12,15 @@ public class PlayerController : MonoBehaviour
     private float jumpForce = 9.5f;
     
     [SerializeField]
-    private int lifeScore = 1;
+    private GameObject FirePrefab;
+
+    
+    public int lifeScore = 1;
+    public bool isTall = false;
+    public bool isFlo = false;
+    public bool isDead = false;
 
     private bool isGrounded = false;
-    private bool isTall = false;
-    private bool isDead = false;
-    private bool BrickBreaker = false;
     private Rigidbody2D myRigid;
 
     void Start()
@@ -28,8 +31,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Move();
-        WhenTall();
         Dead();
+        Attack();
     }
 
     private void Move()
@@ -41,21 +44,6 @@ public class PlayerController : MonoBehaviour
         {
             myRigid.velocity = Vector2.up * jumpForce;
         }
-    }
-
-    private void WhenTall()
-    {
-        if (isTall == true)
-        {
-            lifeScore += 1;
-            isTall = false;
-        }
-
-        if (lifeScore > 1)
-        {
-            BrickBreaker = true;
-        }
-
     }
 
     private void Dead()
@@ -77,6 +65,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Attack()
+    {
+        if(isFlo == true)
+        {
+            Vector3 FirePosition = new Vector3(transform.position.x + 22.7f, transform.position.y, 0f);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                GameObject Fire = Instantiate(FirePrefab, FirePosition, Quaternion.identity);
+            }
+
+        }
+    }
+
     private IEnumerator TimeWaiter(float seconds)
     {
         yield return new WaitForSeconds(seconds);
@@ -85,9 +87,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Land")
+        if (collision.collider.tag == "Land" || collision.collider.tag == "UsedBox" || collision.collider.tag == "Unbroken")
         {
             isGrounded = true;
+            moveSpeed = 4.5f;
         }
 
         if (collision.collider.tag == "Brick" || collision.collider.tag == "Box")
@@ -99,11 +102,22 @@ public class PlayerController : MonoBehaviour
         if (collision.collider.tag == "Mur")
         {
             isTall = true;
+            lifeScore += 1;
+        }
+
+        if (collision.collider.tag == "Flo")
+        {
+            isFlo = true;
         }
 
         if (collision.collider.tag == "Enemy")
         {
-            lifeScore -= lifeScore;
+            GoombaController PlyerHit = collision.gameObject.GetComponent<GoombaController>();
+        }
+        
+        if(collision.collider.tag == "Brick" && isTall == true)
+        {
+            AboutBricks bricks = collision.gameObject.GetComponent<AboutBricks>();
         }
     }
 
@@ -118,11 +132,6 @@ public class PlayerController : MonoBehaviour
         {
             isDead = true;
         }    
-
-        if(collision.collider.tag == "Brick" && BrickBreaker == true)
-        {
-
-        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -132,15 +141,10 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
         }
 
-        if (collision.collider.tag == "Brick" || collision.collider.tag == "Box")
+        if (collision.collider.tag == "Brick" || collision.collider.tag == "Box" || collision.collider.tag == "Unbroken" || collision.collider.tag == "UsedBox")
         {
             moveSpeed = 4.5f;
             isGrounded = false;
         }
-    }
-
-    public bool IsBreaker()
-    {
-        return BrickBreaker;
     }
 }
